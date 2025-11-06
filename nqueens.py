@@ -51,13 +51,29 @@ def is_safe(board, row, col):
     n = len(board)
     
     # TODO: Check row on left side
-    
-    
+
+    for i in range(col-1, -1, -1):
+        if board[row][i] == 1:
+            return False
+
     # TODO: Check upper left diagonal
     
+    j = col - 1
+    i = row - 1
+    while j >= 0 and i >= 0:
+        if board[i][j] == 1:
+            return False
+        j -= 1
+        i -= 1
     
     # TODO: Check lower left diagonal
-    
+    j = col - 1
+    i = row + 1
+    while j >= 0 and i < n:
+        if board[i][j] == 1:
+            return False
+        j -= 1
+        i += 1
     
     return True  # Replace with your logic
 
@@ -87,15 +103,25 @@ def solve_nqueens_util(board, col):
     n = len(board)
     
     # TODO: Base case - all queens placed
-    
+    if col >= n:
+        return True
     
     # TODO: Try placing queen in each row of this column
-    
-    
+    for row in range(n):
+        if is_safe(board, row, col):
+            board[row][col] = 1
+            if solve_nqueens_util(board, col + 1):
+                return True
+            board[row][col] = 0  # Backtrack
+
     # TODO: If no placement worked, return False
-    
-    
-    pass  # Remove when you implement
+    return False
+
+
+# 4-queens
+# solve_nqueens_util(board, 0)
+# Goes 0,0, calls solve_nqueens_util(board, 1)
+
 
 def solve_nqueens(n):
     """
@@ -159,13 +185,13 @@ if __name__ == "__main__":
         print("\nNo solution exists")
     
     # BONUS: Find all solutions for N=4
-    print("\n" + "="*30)
-    print("BONUS: All solutions for 4-Queens:")
-    print("="*30)
-    board = initialize_board(4)
-    count = [0]
-    count_all_solutions(board, 0, count)
-    print(f"\nTotal solutions: {count[0]}")
+    # print("\n" + "="*30)
+    # print("BONUS: All solutions for 4-Queens:")
+    # print("="*30)
+    # board = initialize_board(4)
+    # count = [0]
+    # count_all_solutions(board, 0, count)
+    # print(f"\nTotal solutions: {count[0]}")
 
 """
 Expected output for N=4 (one possible solution):
